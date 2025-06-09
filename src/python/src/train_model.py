@@ -38,6 +38,8 @@ JOIN skill s ON s.id = v.skillId
 
 df_raw = pd.read_sql(query, conn)
 
+print(df_raw.head())
+
 # Group by user_project_id and transform data
 grouped = df_raw.groupby("user_project_id")
 for project_id, group in grouped:
@@ -50,8 +52,8 @@ grouped = df_raw.groupby("user_project_id")
 for project_id, group in grouped:
     row = defaultdict(int)
     for _, row_data in group.iterrows():
-        row[row_data["skill"].lower()] = row_data["value"]
-        row["level"] = row_data["level"].lower()
+        row[row_data["skill_name"].lower()] = row_data["value_value"]
+        row["level"] = row_data["user_project_level"].lower()
     skill_rows.append(row)
 
 df = pd.DataFrame(skill_rows).fillna(0)
